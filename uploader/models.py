@@ -40,8 +40,8 @@ class UploadedFile(models.Model):
         self.sha1 = file_hash.hexdigest()
         if self.sha1 in UploadedFile.objects.exclude(id=self.id).values_list('sha1', flat=True):
             if CRAZY_HACK:
-                if hasattr(self.sample_file.file, 'temporary_file_path'):
-                    temp_file_path = self.sample_file.file.temporary_file_path()
+                if hasattr(self.uploaded_file.file, 'temporary_file_path'):
+                    temp_file_path = self.uploaded_file.file.temporary_file_path()
                     os.unlink(temp_file_path)
 
             raise ValidationError("An uploaded file with this SHA-1 hash already exists.")
