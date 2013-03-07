@@ -28,6 +28,10 @@ class UploadedFileList(generics.ListCreateAPIView):
     filter_fields = ('original_filename',)
 
     def get_serializer_class(self):
+        # hack to get the POST form to display the file upload field, but avoid it on the GET list
+        if self.request.method == 'GET' and hasattr(self, 'response'):
+            return UploadedFilePOSTSerializer
+
         if self.request.method == 'POST':
             return UploadedFilePOSTSerializer
 
