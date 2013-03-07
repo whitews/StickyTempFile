@@ -1,0 +1,41 @@
+{% load url from future %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <div>Upload a File</div>
+  <br/>
+  <form enctype="multipart/form-data" action="{% url 'add_file' %}" method="post">
+    {% csrf_token %}
+
+    {% if form.errors %}
+      <div>
+        <ul>
+          {% for field in form %}
+            {% if field.errors %}
+              <span>{{ field.label }}: {{ field.errors|striptags }}</span>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    {{ form.non_field_errors }}
+
+    {% for field in form %}
+      <div>
+        <label>{{ field.label }}</label>
+        <div>{{ field }}</div>
+      </div>
+    {% endfor %}
+    <div>
+      <div>
+        <button type="submit">Save</button>
+      </div>
+    </div>
+  </form>
+
+</body>
+</html>
